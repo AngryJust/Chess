@@ -157,7 +157,7 @@ var is_selected=false;
 
 function SelectCell(cell){
     is_selected = true;
-    DropAllowedStep();
+    //DropAllowedStep();
     if( $selectedCell !=null){
         $selectedCell.toggleClass('selected');
     }
@@ -363,4 +363,38 @@ function KnightStep(){
         }
     }
 
+}
+
+//шах
+function isMate()
+{
+    $enemy = $('div[color="'+currentTeam.enemy + '"]');//получаем список врагов которые пойдут в следующем шагу
+    /*Если враг может атаковать нашего короля в следующем ходу, то нам шах */
+    $enemy.each(function(){
+        console.log($(this));
+        if ($(this).attr('color')==currentTeam.enemy){
+            SelectCell($(this));
+            if ($selectedCell.attr('type')=='pawn'){
+                PawnStep();
+            }
+           if ($selectedCell.attr('type')=='Rook'){
+                RookStep();
+            }
+            if ($selectedCell.attr('type')=='Bishop'){
+                BishopStep();
+            }
+            if ($selectedCell.attr('type')=='Queen'){
+                BishopStep();
+                RookStep();
+            }
+            if ($selectedCell.attr('type')=='Knight'){
+                KnightStep();
+            }
+        }
+    })
+    $king = $('div[color="'+currentTeam.current + '" type="King"]');
+    console.log($king);
+    $selectedCell.removeClass('selected')
+    $selectedCell=null;
+   // DropAllowedStep();
 }
