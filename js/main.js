@@ -165,6 +165,7 @@ function SelectCell(cell){
     cell.toggleClass('selected');
 }
 function MakeMove(_targetcCell){
+    isCheck()
     if (_targetcCell.hasClass('allowedStep')) {
         _targetcCell.attr('color', $selectedCell.attr('color')).attr('type', $selectedCell.attr('type'))
         _targetcCell[0].innerText = $selectedCell[0].innerText;
@@ -173,11 +174,12 @@ function MakeMove(_targetcCell){
         $selectedCell.toggleClass('selected');
         $selectedCell = null;
         if (_targetcCell.hasClass('attack')){
-           console.log('tadadadada'); //  НЕЕЕ ОСТАВЛЯЯЯТЬ В ПРОГЕ, А ТО СТРАННО
+           console.log('eat');
         }
         else {
-            ChangeTeam();
+
         }
+        ChangeTeam();
         DropAllowedStep();
     }
 }
@@ -366,12 +368,12 @@ function KnightStep(){
 }
 
 //шах
-function isMate()
+function isCheck()
 {
-    $enemy = $('div[color="'+currentTeam.enemy + '"]');//получаем список врагов которые пойдут в следующем шагу
+    $enemy = $('div[color="'+currentTeam.enemy +'"]');//получаем список врагов которые пойдут в следующем шагу
     /*Если враг может атаковать нашего короля в следующем ходу, то нам шах */
     $enemy.each(function(){
-        console.log($(this));
+       // console.log($(this));
         if ($(this).attr('color')==currentTeam.enemy){
             SelectCell($(this));
             if ($selectedCell.attr('type')=='pawn'){
@@ -392,9 +394,16 @@ function isMate()
             }
         }
     })
-    $king = $('div[color="'+currentTeam.current + '" type="King"]');
-    console.log($king);
+    var king=($('div[type="King"]'+'[color="'+currentTeam.current+'"]'));
+    console.log(king);
+    if(king.hasClass('allowedStep')){
+        alert('I are under Check')
+    }
+
     $selectedCell.removeClass('selected')
     $selectedCell=null;
-   // DropAllowedStep();
+    DropAllowedStep();
+}
+function isMate(){
+    
 }
